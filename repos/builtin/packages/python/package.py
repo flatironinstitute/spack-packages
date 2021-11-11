@@ -669,7 +669,8 @@ class Python(Package):
 
             if '^ncurses' in spec:
                 # make sure we get ncursesw (first)
-                cppflags = '-I{0}/ncursesw '.format(spec[ncurses].prefix.include) + cppflags
+                cppflags = '-I{0}/ncursesw '.format(spec['ncurses'].prefix.include) \
+                        + cppflags
 
             # Currently, the only way to get SpecBuildInterface wrappers of the
             # dependencies (which we need to get their 'libs') is to get them
