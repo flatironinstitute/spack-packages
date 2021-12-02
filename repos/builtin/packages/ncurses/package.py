@@ -229,6 +229,30 @@ class Ncurses(AutotoolsPackage, GNUMirrorPackage):
         headers.directories = hdirs
         return headers
 
+    def query_parameter_options(self):
+        """Use query parameters passed to spec (e.g., "spec[ncurses:wide]")
+        to select wide, non-wide, or default/both."""
+        query_parameters = self.spec.last_query.extra_parameters
+        return 'nowide' in query_parameters, 'wide' in query_parameters
+
+    @property
+    def headers(self):
+        nowide, wide = self.query_parameter_options()
+        include = self.prefix.include
+        hdirs = []
+        if not (nowide or wide):
+            # default (top-level, wide)
+            hdirs.append(include)
+        if nowide:
+            hdirs.append(include.ncurses)
+        if wide:
+            hdirs.append(include.ncursesw)
+
+        headers = []
+        for hdir in hdirs:
+            headers.extend(fs.find_headers('*', root=hdir, recursive=False))
+        return headers
+
     @property
     def libs(self):
         nowide, wide = self.query_parameter_options()
