@@ -111,4 +111,7 @@ class Lmod(AutotoolsPackage):
         else:
             args.append("--with-redirect=no")
 
+        args.append('--with-availExtensions=no')
+        args.append('--with-cachedLoads=yes')
+
         return args
