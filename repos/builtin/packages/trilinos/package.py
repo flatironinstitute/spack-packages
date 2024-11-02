@@ -497,14 +497,14 @@ class Trilinos(CMakePackage, CudaPackage, ROCmPackage):
 
     depends_on("hwloc", when="@13: +kokkos")
     depends_on("hwloc+cuda", when="@13: +kokkos+cuda")
-    depends_on("hypre@develop", when="@master: +hypre")
+    depends_on("hypre@develop", when="@master +hypre")
     depends_on("netcdf-c+mpi+parallel-netcdf", when="+exodus+mpi@12.12.1:")
     depends_on("superlu-dist@:4.3", when="@11.14.1:12.6.1+superlu-dist")
     depends_on("superlu-dist@4.4:5.3", when="@12.6.2:12.12.1+superlu-dist")
     depends_on("superlu-dist@5.4:6.2.0", when="@12.12.2:13.0.0+superlu-dist")
     depends_on("superlu-dist@6.3.0:7", when="@13.0.1:13.4.0 +superlu-dist")
     depends_on("superlu-dist@6.3.0:", when="@13.4.1:13 +superlu-dist")
-    depends_on("superlu-dist@develop", when="@master: +superlu-dist")
+    depends_on("superlu-dist@develop", when="@master +superlu-dist")
 
     # ###################### Patches ##########################
 
@@ -634,7 +634,7 @@ class Trilinos(CMakePackage, CudaPackage, ROCmPackage):
         define = self.define
         define_from_variant = self.define_from_variant
 
-        if self.spec.satisfies("@master: +kokkos"):
+        if self.spec.satisfies("@master +kokkos"):
             with open(
                 os.path.join(self.stage.source_path, "packages", "kokkos", "CMakeLists.txt")
             ) as f:
