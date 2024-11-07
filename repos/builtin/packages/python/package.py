@@ -293,6 +293,15 @@ class Python(Package):
         description="Symlink 'python3' executable to 'python' (not PEP 394 compliant)",
     )
 
+    # free-threaded (no-GIL) builds are experimental as of Python 3.13
+    # https://docs.python.org/3/howto/free-threading-python.html
+    variant(
+        "gil",
+        default=True,
+        description="Build with the Global Interpreter Lock enabled",
+        when="@3.13:",
+    )
+
     # Optional Python modules
     variant("readline", default=sys.platform != "win32", description="Build readline module")
     variant("ssl", default=True, description="Build ssl module")
@@ -714,6 +723,9 @@ class Python(Package):
             config_args.append("--with-system-expat")
         else:
             config_args.append("--without-system-expat")
+
+        if "+gil" not in spec:
+            config_args.append("--disable-gil")
 
         if self.version < Version("3.12.0"):
             if "+ctypes" in spec:
