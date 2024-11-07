@@ -724,9 +724,6 @@ class Python(Package):
         else:
             config_args.append("--without-system-expat")
 
-        if "+gil" not in spec:
-            config_args.append("--disable-gil")
-
         if self.version < Version("3.12.0"):
             if "+ctypes" in spec:
                 config_args.append("--with-system-ffi")
@@ -753,6 +750,9 @@ class Python(Package):
         # https://docs.python.org/3.8/library/sqlite3.html#f1
         if spec.satisfies("+sqlite3 ^sqlite+dynamic_extensions"):
             config_args.append("--enable-loadable-sqlite-extensions")
+
+        if "+gil" not in spec:
+            config_args.append("--disable-gil")
 
         if spec.satisfies("%oneapi"):
             cflags.append("-fp-model=strict")
