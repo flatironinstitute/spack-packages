@@ -480,6 +480,12 @@ class Python(Package):
                 variants += "+crypt"
             except ProcessError:
                 variants += "~crypt"
+        try:
+            python("-c", "import sys; assert sys._is_gil_enabled()")
+        except ProcessError:
+            variants += "~freethreading"
+        else:
+            variants += "+freethreading"
 
         return variants
 
