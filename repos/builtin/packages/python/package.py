@@ -296,9 +296,9 @@ class Python(Package):
     # free-threaded (no-GIL) builds are experimental as of Python 3.13
     # https://docs.python.org/3/howto/free-threading-python.html
     variant(
-        "gil",
-        default=True,
-        description="Build with the Global Interpreter Lock enabled",
+        "freethreading",
+        default=False,
+        description="Build with the Global Interpreter Lock disabled",
         when="@3.13:",
     )
 
@@ -751,7 +751,7 @@ class Python(Package):
         if spec.satisfies("+sqlite3 ^sqlite+dynamic_extensions"):
             config_args.append("--enable-loadable-sqlite-extensions")
 
-        if "+gil" not in spec:
+        if "+freethreading" in spec:
             config_args.append("--disable-gil")
 
         if spec.satisfies("%oneapi"):
