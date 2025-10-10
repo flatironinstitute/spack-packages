@@ -1,0 +1,51 @@
+# Copyright Spack Project Developers. See COPYRIGHT file for details.
+#
+# SPDX-License-Identifier: (Apache-2.0 OR MIT)
+
+from spack_repo.builtin.build_systems.cmake import CMakePackage
+
+from spack.package import *
+
+
+class Melissa(CMakePackage):
+    """Melissa is a file-avoiding, adaptive, fault-tolerant and elastic
+    framework, to run large-scale sensitivity analysis on supercomputers.
+    """
+
+    homepage = "https://gitlab.inria.fr/melissa/melissa"
+    git = "https://gitlab.inria.fr/melissa/melissa.git"
+    url = "https://gitlab.inria.fr/melissa/melissa/-/archive/v2.0.0/melissa-v2.0.0.tar.gz"
+    # attention: Git**Hub**.com accounts
+    maintainers("abhishek1297", "raffino")
+
+    version("develop", branch="develop")
+    version("2.0.0", sha256="75957d1933cd9c228a6e8643bc855587162c31f3b0ca94c3f5e0e380d01775dd")
+
+    depends_on("c", type="build")  # generated
+    depends_on("fortran", type="build")  # generated
+
+    depends_on("cmake@3.15:", type="build")
+    depends_on("pkgconfig", type="build")
+
+    depends_on("libzmq@4.2:4", type=("build", "run"))
+    depends_on("python@3.9:3.12", type=("build", "run"))
+    depends_on("mpi", type=("build", "run"))
+
+    def cmake_args(self):
+        args = []
+
+        # embed runtime library search paths
+        rpaths = [self.spec["libzmq"].prefix.lib, self.spec["mpi"].prefix.lib]
+        joined_rpaths = ";".join(rpaths)
+
+        args.append(f"-DCMAKE_INSTALL_RPATH={joined_rpaths}")
+        args.append("-DCMAKE_INSTALL_RPATH_USE_LINK_PATH=ON")
+
+        return args
+
+    def setup_run_environment(self, env):
+        python = self.spec["python"]
+        python_version = python.version.up_to(2)
+        # This path points to the python client API scripts installed in $CMAKE_INSTALL_PREFIX/lib
+        melissa_api_site_packages = f"{self.prefix.lib}/python{python_version}/site-packages"
+        env.prepend_path("PYTHONPATH", melissa_api_site_packages)
