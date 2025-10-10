@@ -41,10 +41,10 @@ class Nfft(AutotoolsPackage):
     def configure(self, spec, prefix):
         options = ["--prefix={0}".format(prefix)]
 
-        configure = Executable("../configure")
+        configure = Executable('../configure')
 
-        if "double" in self.fftw_selected_precisions:
-            with working_dir("double", create=True):
+        if 'double' in self.fftw_selected_precisions:
+            with working_dir('double', create=True):
                 configure(*options)
         if "float" in self.fftw_selected_precisions:
             with working_dir("float", create=True):
