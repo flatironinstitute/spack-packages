@@ -2,13 +2,12 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-from spack_repo.builtin.build_systems.makefile import MakefilePackage
-from spack_repo.builtin.build_systems.cmake import CMakePackage
+from spack_repo.builtin.build_systems import makefile, cmake
 
 from spack.package import *
 
 
-class Mbedtls(MakefileBuilder, CMakeBuilder):
+class Mbedtls(makefile.MakefilePackage, cmake.CMakePackage):
     """mbed TLS (formerly known as PolarSSL) makes it trivially easy for
     developers to include cryptographic and SSL/TLS capabilities in
     their (embedded) products, facilitating this functionality with a
@@ -79,7 +78,7 @@ class Mbedtls(MakefileBuilder, CMakeBuilder):
             fix_darwin_install_name(self.prefix.lib)
 
 
-class MakefileBuilder(MakefilePackage):
+class MakefileBuilder(makefile.MakefileBuilder):
     build_type_to_flags = {
         "Debug": "-O0 -g",
         "Release": "-O3",
@@ -114,7 +113,7 @@ class MakefileBuilder(MakefilePackage):
         return ["install", "DESTDIR={0}".format(self.prefix)]
 
 
-class CMakeBuilder(CMakePackage):
+class CMakeBuilder(cmake.CMakeBuilder):
     def cmake_args(self):
         return [
             self.define(
