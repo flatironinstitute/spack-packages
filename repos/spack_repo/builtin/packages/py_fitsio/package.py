@@ -16,6 +16,7 @@ class PyFitsio(PythonPackage):
     license("GPL-2.0-or-later", checked_by="lgarrison")
 
     version("1.2.6", sha256="33b0cdbc53f1779e3d0a765d5ab474baf6c86eccf7c21375a07671f7b09b33af")
+    version("1.2.5", sha256="001e8689cf82229e19bc20e62494b1eba777aaca7471723ba67a4bac24fdd0d6")
 
     depends_on("py-setuptools", type="build")
 

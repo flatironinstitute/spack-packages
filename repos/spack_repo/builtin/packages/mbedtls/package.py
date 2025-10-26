@@ -8,7 +8,7 @@ from spack_repo.builtin.build_systems.cmake import CMakePackage
 from spack.package import *
 
 
-class Mbedtls(MakefilePackage, CMakePackage):
+class Mbedtls(MakefileBuilder, CMakeBuilder):
     """mbed TLS (formerly known as PolarSSL) makes it trivially easy for
     developers to include cryptographic and SSL/TLS capabilities in
     their (embedded) products, facilitating this functionality with a
@@ -79,7 +79,7 @@ class Mbedtls(MakefilePackage, CMakePackage):
             fix_darwin_install_name(self.prefix.lib)
 
 
-class MakefileBuilder(spack.build_systems.makefile.MakefileBuilder):
+class MakefileBuilder(MakefilePackage):
     build_type_to_flags = {
         "Debug": "-O0 -g",
         "Release": "-O3",
@@ -114,7 +114,7 @@ class MakefileBuilder(spack.build_systems.makefile.MakefileBuilder):
         return ["install", "DESTDIR={0}".format(self.prefix)]
 
 
-class CMakeBuilder(spack.build_systems.cmake.CMakeBuilder):
+class CMakeBuilder(CMakePackage):
     def cmake_args(self):
         return [
             self.define(
