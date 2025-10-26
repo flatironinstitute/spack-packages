@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-import llnl.util.filesystem as fs
+from spack_repo.builtin.build_systems.cargo import CargoPackage
 
 from spack.package import *
 
@@ -26,7 +26,7 @@ class Uv(CargoPackage):
     depends_on("rust@1.85:", when="@0.7.13:")
 
     def build(self, spec, prefix) -> None:
-        with fs.working_dir(self.build_directory):
+        with working_dir(self.build_directory):
             self.module.cargo(
                 "install",
                 "--locked",
