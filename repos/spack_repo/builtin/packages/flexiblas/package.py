@@ -33,3 +33,11 @@ class Flexiblas(CMakePackage):
 
     def cmake_args(self):
         return [self.define("SYSCONFDIR", self.prefix.etc)]
+
+    @property
+    def headers(self):
+        i = self.prefix.include.flexiblas
+        h = find_headers("*", root=i, recursive=False)
+        h.directories = i
+        return h
+
