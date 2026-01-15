@@ -59,10 +59,10 @@ class PyPathos(PythonPackage):
 
     def url_for_version(self, version):
         url = self.url.rsplit("/", 1)[0]
-        if Version("0.2.8") > version >= Version("0.2.2"):
-            url += "/pathos-{0}.tar.gz"
-        else:
+        if version in (Version("0.2.0"), Version("0.2.8")):
             url += "/pathos-{0}.zip"
+        else:
+            url += "/pathos-{0}.tar.gz"
 
         url = url.format(version)
         return url
