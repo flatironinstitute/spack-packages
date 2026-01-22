@@ -18,6 +18,7 @@ class PyFitsio(PythonPackage):
     version("1.2.6", sha256="33b0cdbc53f1779e3d0a765d5ab474baf6c86eccf7c21375a07671f7b09b33af")
     version("1.2.5", sha256="001e8689cf82229e19bc20e62494b1eba777aaca7471723ba67a4bac24fdd0d6")
 
+    depends_on("c", type="build")
     depends_on("py-setuptools", type="build")
 
     depends_on("py-numpy", type=("build", "run"))
