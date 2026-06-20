@@ -23,6 +23,10 @@ class Mathematica(Package):
     url = "file://{0}/Mathematica_12.0.0_LINUX.sh".format("/mnt/sw/pkg")
     manual_download = False
 
+    license("LicenseRef-Wolfram-Proprietary", checked_by="alecbcs")
+
+    redistribute(source=False, binary=False)
+
     version(
         "14.0.0",
         sha256="52b701120e86ea76d55fef97d33d281b926389e5cbd00aae02ab63cd8e44067e",
@@ -76,7 +80,7 @@ class Mathematica(Package):
         # Backup .spack because Mathematica moves it but never restores it
         copy_tree(join_path(prefix, ".spack"), join_path(self.stage.path, ".spack"))
 
-        sh = which("sh")
+        sh = which("sh", required=True)
         sh(
             self.stage.archive_file,
             "--",

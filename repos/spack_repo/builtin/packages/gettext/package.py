@@ -123,6 +123,10 @@ class Gettext(AutotoolsPackage, GNUMirrorPackage):
             "--without-cvs",
         ]
 
+        # Until we know why we need them, do not build D sources:
+        if spec.satisfies("@0.25:"):
+            config_args.append("--disable-d")
+
         config_args.extend(self.enable_or_disable("shared"))
 
         if self.spec["iconv"].name == "libiconv":
@@ -168,3 +172,10 @@ class Gettext(AutotoolsPackage, GNUMirrorPackage):
             shared=True if not shared_variant else shared_variant.value,
         )
         return libs
+
+    def setup_dependent_build_environment(
+        self, env: EnvironmentModifications, dependent_spec: Spec
+    ) -> None:
+        # In addition to prefix/share/aclocal, newer versions of gettext also
+        # install m4 files into prefix/share/gettext/m4.
+        env.append_path("ACLOCAL_PATH", self.prefix.share.gettext.m4)

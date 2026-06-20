@@ -192,8 +192,7 @@ class Tau(Package):
     depends_on("libunwind libs=static +pic", when="libunwind=static")
     depends_on("libunwind libs=shared", when="libunwind=shared")
     depends_on("mpi", when="+mpi", type=("build", "run", "link"))
-    # Legacy nvtx is only supported until cuda@12.8, newer cuda only provides nvtx3.
-    depends_on("cuda@:12.8", when="+cuda")
+    depends_on("cuda", when="+cuda")
     depends_on("gasnet", when="+gasnet")
     depends_on("adios2", when="+adios2")
     depends_on("sqlite", when="+sqlite")
@@ -208,7 +207,7 @@ class Tau(Package):
     depends_on("hip", when="+rocprofiler-sdk")
     depends_on("elfutils", when="+rocprofiler-sdk")
     depends_on("comgr", when="+rocprofiler-sdk")
-    depends_on("salt", when="+salt", type="run")
+    depends_on("saltfm", when="+salt", type="run")
     depends_on("hip", when="@2.34: +roctracer")
     depends_on("java", type="run")  # for paraprof
     depends_on("oneapi-level-zero", when="+level_zero")
@@ -222,6 +221,9 @@ class Tau(Package):
     )
 
     conflicts("+comm", when="@:2.34 +python", msg="Bug in +comm with +python up to @2.34")
+
+    # header changes require upstream to add explicit includes
+    conflicts("^cuda@13.2:", when="@:2.35.1 +cuda")
 
     # Elf only required from 2.28.1 on
     conflicts("+elf", when="@:2.28.0")
@@ -594,13 +596,13 @@ class Tau(Package):
             cache_extra_test_sources(self, self.python_test)
 
     def _run_python_test(self, test_name, purpose, work_dir):
-        tau_python = which(self.prefix.bin.tau_python)
+        tau_python = which(self.prefix.bin.tau_python, required=True)
         tau_py_inter = "-tau-python-interpreter=" + self.spec["python"].prefix.bin.python
-        pprof = which(self.prefix.bin.pprof)
+        pprof = which(self.prefix.bin.pprof, required=True)
         with test_part(self, f"{test_name}", purpose, work_dir):
             if "+mpi" in self.spec:
                 flag = "mpi"
-                mpirun = which(self.spec["mpi"].prefix.bin.mpirun)
+                mpirun = which(self.spec["mpi"].prefix.bin.mpirun, required=True)
                 mpirun(
                     "-np",
                     "4",
@@ -616,13 +618,13 @@ class Tau(Package):
             pprof()
 
     def _run_default_test(self, test_name, purpose, work_dir):
-        tau_exec = which(self.prefix.bin.tau_exec)
-        pprof = which(self.prefix.bin.pprof)
+        tau_exec = which(self.prefix.bin.tau_exec, required=True)
+        pprof = which(self.prefix.bin.pprof, required=True)
         with test_part(self, f"{test_name}", purpose, work_dir):
             make("all")
             if "+mpi" in self.spec:
                 flags = ["-T", "mpi"]
-                mpirun = which(self.spec["mpi"].prefix.bin.mpirun)
+                mpirun = which(self.spec["mpi"].prefix.bin.mpirun, required=True)
                 mpirun("-np", "4", self.prefix.bin.tau_exec, *flags, "./matmult")
             else:
                 flags = ["-T", "serial"]
@@ -630,13 +632,13 @@ class Tau(Package):
             pprof()
 
     def _run_ompt_test(self, test_name, purpose, work_dir):
-        tau_exec = which(self.prefix.bin.tau_exec)
-        pprof = which(self.prefix.bin.pprof)
+        tau_exec = which(self.prefix.bin.tau_exec, required=True)
+        pprof = which(self.prefix.bin.pprof, required=True)
         with test_part(self, f"{test_name}", purpose, work_dir):
             make("all")
             if "+mpi" in self.spec:
                 flags = ["-T", "mpi", "-ompt"]
-                mpirun = which(self.spec["mpi"].prefix.bin.mpirun)
+                mpirun = which(self.spec["mpi"].prefix.bin.mpirun, required=True)
                 mpirun("-np", "4", self.prefix.bin.tau_exec, *flags, "./mandel")
             else:
                 flags = ["-T", "serial", "-ompt"]
@@ -644,13 +646,13 @@ class Tau(Package):
             pprof()
 
     def _run_rocm_test(self, test_name, purpose, work_dir):
-        tau_exec = which(self.prefix.bin.tau_exec)
-        pprof = which(self.prefix.bin.pprof)
+        tau_exec = which(self.prefix.bin.tau_exec, required=True)
+        pprof = which(self.prefix.bin.pprof, required=True)
         with test_part(self, f"{test_name}", purpose, work_dir):
             make("all")
             if "+mpi" in self.spec:
                 flags = ["-T", "mpi", "-rocm"]
-                mpirun = which(self.spec["mpi"].prefix.bin.mpirun)
+                mpirun = which(self.spec["mpi"].prefix.bin.mpirun, required=True)
                 mpirun("-np", "4", self.prefix.bin.tau_exec, *flags, "./gpu-stream-hip")
             else:
                 flags = ["-T", "serial", "-rocm"]
