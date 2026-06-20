@@ -41,6 +41,7 @@ class Openmm(CMakePackage, CudaPackage):
     depends_on("doxygen", type="build", when="@7.7:")
     depends_on("swig", type="build")
     depends_on("fftw", when="@:7")
+    depends_on("py-setuptools", type="build")
     depends_on("py-cython", type="build")
     depends_on("py-numpy", type=("build", "run"))
     depends_on("cuda", when="+cuda", type=("build", "link", "run"))
