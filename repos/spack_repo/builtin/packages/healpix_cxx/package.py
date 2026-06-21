@@ -15,14 +15,9 @@ class HealpixCxx(AutotoolsPackage, SourceforgePackage):
     homepage = "https://healpix.sourceforge.io"
     sourceforge_mirror_path = "healpix/healpix_cxx-3.50.0.tar.gz"
 
-    license("GPL-2.0-or-later", checked_by="lgarrison")
+    license("GPL-2.0-or-later")
 
-    version(
-        "3.83",
-        url="https://downloads.sourceforge.net/project/healpix/Healpix_3.83/Healpix_3.83_2024Nov13.tar.gz",
-        sha256="8876c18efc596fd706b2a004ac15f2fb60b795f2db6fbabea9d8ccf549531dda",
-    )
-    version("3.82", sha256="47629f057a2daf06fca3305db1c6950edb9e61bbe2d7ed4d98ff05809da2a127")
+    version("3.50.0", sha256="6538ee160423e8a0c0f92cf2b2001e1a2afd9567d026a86ff6e2287c1580cb4c")
 
     depends_on("c", type="build")
     depends_on("cxx", type="build")
