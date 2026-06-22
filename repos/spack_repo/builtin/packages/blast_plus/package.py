@@ -180,10 +180,10 @@ class BlastPlus(AutotoolsPackage):
         else:
             config_args.append("--without-python")
 
-        with when("+sqlite"):
+        if spec.satisfies("+sqlite"):
             config_args.append(f"--with-sqlite3={self.spec['sqlite'].prefix}")
 
-        with when("+zstd"):
+        if spec.satisfies("+zstd"):
             config_args.append(f"--with-zstd={self.spec['zstd'].prefix}")
 
         return config_args
