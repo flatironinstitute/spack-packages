@@ -16,8 +16,10 @@ class PyBashKernel(PythonPackage):
 
     license("BSD-3-Clause")
 
+    version("0.10.0", sha256="2ed5a0a416c418d1d751e71505bd6c889e12157444b50c4287a685da775c28ca")
     version("0.7.2", sha256="a08c84eddd8179de5234105821fd5cc210015671a0bd3cd0bc4f631c475e1670")
 
     depends_on("py-flit", type="build")
     depends_on("py-pexpect@4.0:", type=("build", "run"))
     depends_on('py-ipykernel', type=('build', 'run'))
+    depends_on('py-filetype', type=('build', 'run'), when="@0.10:")
