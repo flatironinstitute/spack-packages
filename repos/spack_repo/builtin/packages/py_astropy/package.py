@@ -20,6 +20,8 @@ class PyAstropy(PythonPackage):
 
     license("BSD-3-Clause", checked_by="lgarrison")
 
+    version("8.0.1", sha256="45ca31d5b91fa294cd590a4791a32db94de7f9c8a343155f4d5877baa82351da")
+    version("7.2.2", sha256="d48d6025636fa1330594603b9c01345561b6da404e2115852a9136db13f455cd")
     version("7.2.0", sha256="ae48bc26b1feaeb603cd94bd1fa1aa39137a115fe931b7f13787ab420e8c3070")
     version("7.1.1", sha256="6d128f0005e2c34f70113484468bf9d0e4ca1ee15a279cfd08bdd979d38db0f8")
     version("7.1.0", sha256="c8f254322295b1b8cf24303d6f155bf7efdb6c1282882b966ce3040eff8c53c5")
