@@ -23,6 +23,7 @@ class PyJax(PythonPackage):
 
     tags = ["e4s"]
 
+    version("0.11.0", sha256="a2feb7cfa48bb35d36b8ecec16a4ec24044dec01935f779b28b017213697b195")
     version("0.10.2", sha256="bf77428a8c2e6904c4f46d5ab12aa5cfc6cad2179f07f7e4c0fc75ac86ef0639")
     version("0.10.1", sha256="11672410faf8752429eb9a131de203dc488a2a3a012d509baa2b39878008810d")
     version("0.10.0", sha256="0119c767de1645f407df72345d28a3837dc904f1d698911c121d8f2b396fdece")

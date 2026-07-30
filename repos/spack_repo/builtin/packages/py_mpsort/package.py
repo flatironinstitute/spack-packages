@@ -12,12 +12,11 @@ class PyMpsort(PythonPackage):
     """Massively Parallel Histogram Sort"""
 
     homepage = "https://github.com/rainwoodman/MP-sort"
+    pypi = "mpsort/mpsort-0.1.19.tar.gz"
 
-    version(
-        "0.1.17-59-gfb201bd",
-        url="https://github.com/rainwoodman/MP-sort/archive/fb201bd5f3d6d4458d46dafce5301b2f1e188649.tar.gz",
-        sha256="5db3e04e1232d015c99d97be8055c04f2d52a6f300c872d1d7af8e6eb739b64b",
-    )
+    version("0.1.19", sha256="7f337b96aca53b8b688456fe18ae532919bfabeb991650f9cf64006cc758d24b")
+
+    depends_on("c", type="build")
 
     depends_on("py-setuptools", type="build")
 
