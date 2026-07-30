@@ -756,9 +756,14 @@ class PyTensorflow(Package, CudaPackage, ROCmPackage, PythonExtension):
 
             # Please specify the location where CUDA toolkit is installed
             env.set("CUDA_TOOLKIT_PATH", spec["cuda"].prefix)
+            env.set("LOCAL_CUDA_PATH", spec["cuda"].prefix)
 
             # Please specify the location where CUDNN library is installed
             env.set("CUDNN_INSTALL_PATH", spec["cudnn"].prefix)
+            env.set("LOCAL_CUDNN_PATH", spec["cudnn"].prefix)
+
+            if "+nccl" in spec:
+                env.set("LOCAL_NCCL_PATH", spec["nccl"].prefix)
 
             # Please specify a list of comma-separated CUDA compute
             # capabilities you want to build with. You can find the compute
