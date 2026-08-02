@@ -28,6 +28,11 @@ class Mathematica(Package):
     redistribute(source=False, binary=False)
 
     version(
+        "15.0.1",
+        sha256="5732bc0ae3a1938b0e3b908be33deb7e9639eb7d45d9137a7340e1f1c13179e8",
+        expand=False,
+    )
+    version(
         "14.0.0",
         sha256="52b701120e86ea76d55fef97d33d281b926389e5cbd00aae02ab63cd8e44067e",
         expand=False,
