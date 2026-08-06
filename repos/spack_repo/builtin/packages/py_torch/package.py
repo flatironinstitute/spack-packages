@@ -29,6 +29,7 @@ class PyTorch(PythonPackage, CudaPackage, ROCmPackage):
     tags = ["e4s"]
 
     version("main", branch="main")
+    version("2.13.0", tag="v2.13.0", commit="cf30153c4c131c8164ee7798e5022d810682e2cb")
     version("2.12.0", tag="v2.12.0", commit="0d62256a2b23365f8e1604297eb23a6545102aa8")
     version("2.11.0", tag="v2.11.0", commit="70d99e998b4955e0049d13a98d77ae1b14db1f45")
     version("2.10.0", tag="v2.10.0", commit="449b1768410104d3ed79d3bcfe4ba1d65c7f22c0")
@@ -386,7 +387,7 @@ class PyTorch(PythonPackage, CudaPackage, ROCmPackage):
     )
 
     # https://github.com/pytorch/pytorch/issues/151592
-    patch("macos_rpath.patch", when="@2.7:")
+    patch("macos_rpath.patch", when="@2.7:2.12")
 
     # https://github.com/pytorch/pytorch/issues/151316
     patch(
