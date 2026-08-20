@@ -18,6 +18,7 @@ class PyIpykernel(PythonPackage):
 
     license("BSD-3-Clause")
 
+    version("7.3.0", sha256="9acaaaf97d16355166e4085afe9d225bfbdf2b7ef520f9df3be8f2b248275e09")
     version("7.2.0", sha256="18ed160b6dee2cbb16e5f3575858bc19d8f1fe6046a9a680c708494ce31d909e")
     version("6.30.1", sha256="6abb270161896402e76b91394fcdce5d1be5d45f456671e5080572f8505be39b")
     version("6.29.5", sha256="f093a22c4a40f8828f8e330a9c297cb93dcab13bd9678ded6de8e5cf81c56215")

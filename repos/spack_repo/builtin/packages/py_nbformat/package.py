@@ -16,6 +16,7 @@ class PyNbformat(PythonPackage):
 
     license("BSD-3-Clause")
 
+    version("5.11.1", sha256="32d4521c68c6e7d5b29c76defaeed9f42ea733142b9b19f88277ce10390b9c4d")
     version("5.10.4", sha256="322168b14f937a5d11362988ecac2a4952d3d8e3a2cbeb2319584631226d5b3a")
     version("5.8.0", sha256="46dac64c781f1c34dfd8acba16547024110348f9fc7eab0f31981c2a3dc48d1f")
     version("5.7.0", sha256="1d4760c15c1a04269ef5caf375be8b98dd2f696e5eb9e603ec2bf091f9b0d3f3")

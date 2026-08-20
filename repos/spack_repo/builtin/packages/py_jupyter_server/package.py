@@ -18,6 +18,7 @@ class PyJupyterServer(PythonPackage):
 
     license("BSD-3-Clause")
 
+    version("2.20.0", sha256="b5778ba337d8015a3dc2b80803ecdd5ac18d3797fddf61a50ea5fb472b4ebe14")
     version("2.17.0", sha256="c38ea898566964c888b4772ae1ed58eca84592e88251d2cfc4d171f81f7e99d5")
     version("2.14.2", sha256="66095021aa9638ced276c248b1d81862e4c50f292d575920bbe960de1c56b12b")
     version("2.6.0", sha256="ae4af349f030ed08dd78cb7ac1a03a92d886000380c9ea6283f3c542a81f4b06")
