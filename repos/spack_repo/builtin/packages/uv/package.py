@@ -15,6 +15,7 @@ class Uv(CargoPackage):
 
     license("APACHE 2.0 or MIT", checked_by="lgarrison")
 
+    version("0.12.7", sha256="d1f971d298b137e337791da2df3e9b4655f8b28e71741e255b0db663510db8f4")
     version("0.7.13", sha256="04abb241591dd374f7f1b9fea6cc43180e99c8c2607767b06d31c78e1ce3cd65")
     version("0.6.8", sha256="462929b218cdd4c4f197f611f132fa55329a8f3558d164ec06ee5b5b0a48cee0")
 
@@ -24,6 +25,7 @@ class Uv(CargoPackage):
 
     depends_on("rust@1.83:", when="@0.6.8:")
     depends_on("rust@1.85:", when="@0.7.13:")
+    depends_on("rust@1.96:", when="@0.12.7:")
 
     def build(self, spec, prefix) -> None:
         with working_dir(self.build_directory):
