@@ -1,49 +1,105 @@
-# Copyright Spack Project Developers. See COPYRIGHT file for details.
-#
-# SPDX-License-Identifier: (Apache-2.0 OR MIT)
+# Adapted from Spack's built-in Rockstar
 
 import os
 
 from spack_repo.builtin.build_systems.makefile import MakefilePackage
-
 from spack.package import *
 
 
 class Rockstar(MakefilePackage):
-    """The Rockstar Halo Finder"""
+    """The Rockstar halo finder"""
 
-    homepage = "https://bitbucket.org/gfcstanford/rockstar"
+    homepage = "https://bitbucket.org/gfcstanford/rockstar"    
 
-    version("develop", git="https://bitbucket.org/gfcstanford/rockstar.git")
-    version("yt", hg="https://bitbucket.org/MatthewTurk/rockstar")
+    # main repo
+    version("main.2021-09-04.36ce9e",
+        git = 'https://bitbucket.org/gfcstanford/rockstar.git',
+        commit = '36ce9eea36eeda4c333acf56f8bb0d40ff0df2a1',
+        preferred=True,
+    )
+    # awetzel's rockstar-galaxies fork
+    version("galaxies.2023-08-25.e3a44e9",
+        git = 'https://bitbucket.org/awetzel/rockstar-galaxies.git',
+        commit = 'e3a44e9ad919c394916bbaeeaac1779ba722976f',
+    )
+    version("galaxies.2022-12-29.a9d865",
+        git = 'https://bitbucket.org/awetzel/rockstar-galaxies.git',
+        commit = 'a9d8653c0aabc1ba31646e504c2d37013ffd11d4',
+    )
 
-    variant("hdf5", description="Build rockstar with HDF5 support", default=False)
+    variant("hdf5", description="HDF5 support", default=True)
 
-    patch("adjust_buildscript.patch")
-
+    depends_on("c", type="build")
     depends_on("hdf5", when="+hdf5")
+    depends_on('libtirpc')
 
-    def build(self, spec, prefix):
-        # Set environment appropriately for HDF5
-        if "+hdf5" in spec:
-            os.environ["HDF5_INC_DIR"] = spec["hdf5"].prefix.include
-            os.environ["HDF5_LIB_DIR"] = spec["hdf5"].prefix.lib
+    patch('0001-Fix-to-solve-linking-problem-with-gcc-10.patch',
+        when='@galaxies',
+    )
 
-        # Build depending on whether hdf5 is to be used
-        if "+hdf5" in spec:
-            make("with_hdf5")
-        else:
-            make()
+    def patch(self):
+        oflags = ' '.join(self.extra_oflags())
+        filter_file(
+            r'^(OFLAGS\s*=[^#\n]*)',
+            rf'\1 {oflags}',
+            'Makefile',
+        )
+        filter_file(
+            r'(-D_BSD_SOURCE|-D_SVID_SOURCE)',
+            r'-D_DEFAULT_SOURCE',
+            'Makefile',
+        )
+        filter_file(
+            r'^CC\s*=.*',
+            r'',
+            'Makefile',
+        )
 
-        # Build rockstar library
-        make("lib")
+    def extra_oflags(self):
+        return ['-ltirpc']
 
     def install(self, spec, prefix):
-        # Install all files and directories
-        install_tree(".", prefix)
+        # install the entire repo
+        # probably only the binaries will be used, though
+        install_tree('.', prefix.src)
 
-        mkdir(prefix.bin)
-        mkdir(prefix.lib)
+        mkdirp(prefix.bin)
+        mkdirp(prefix.lib)
 
-        install("rockstar", join_path(prefix.bin, "rockstar"))
-        install("librockstar.so", join_path(prefix.lib, "librockstar.so"))
+        util = ['util/bgc2_to_ascii',
+                'util/find_parents',
+                'util/finish_bgc2',
+                'util/subhalo_stats',
+                ]
+        for fn in util:
+            install_link(join_path(prefix.src, fn),
+                         prefix.bin)
+        
+        if '@galaxies' in spec:
+            install_link(join_path(prefix.src, 'rockstar-galaxies'),
+                         prefix.bin)
+            install_link(join_path(prefix.src, 'librockstar-galaxies.so'),
+                         prefix.lib)
+        else:
+            install_link(join_path(prefix.src, 'rockstar'),
+                        prefix.bin)
+            install_link(join_path(prefix.src, 'librockstar.so'),
+                         prefix.lib)
+
+    @property
+    def build_targets(self):
+        targets = [
+            'lib',
+            'bgc2',
+            'parents',
+            'substats'
+        ]
+        if '+hdf5' in self.spec:
+            targets += ['with_hdf5']
+        else:
+            targets += ['all']
+        return targets
+
+def install_link(src, dst):
+    '''Install into `dst` dir via hard link'''
+    os.link(src, join_path(dst, os.path.basename(src)))
