@@ -15,6 +15,14 @@ class MpiRockstar(MakefilePackage):
 
     license("GPL-3.0-only", checked_by="lgarrison")
 
+    # the commit the (moved) v1.0.0 tag pointed at when the JOSS paper was
+    # accepted; preferred because describe-style version strings don't sort
+    version(
+        "1.0.0.2026-03-24.5febd8c",
+        url="https://github.com/Tomoaki-Ishiyama/mpi-rockstar/archive/5febd8c16d4246cdf457d5d50f1fe52dcc8c092f.tar.gz",
+        sha256="b64c5292ec02884f1c0f8051b2014c8918cd23310e0958a712f90d734c070d1d",
+        preferred=True,
+    )
     version(
         "v1.0.0-31-g97eb6c1",
         sha256="c227a8ab2296b0e8343920f93b4028f519f45a000a724f98fc06b510f0e9a072",
