@@ -14,13 +14,14 @@ class PyHalotools(PythonPackage):
     homepage = "https://halotools.readthedocs.io/"
     pypi = "halotools/halotools-0.8.1.tar.gz"
 
+    version("0.9.4", sha256="c794f466458def27106fa668ca2255896246b06f6be812889b84a4e9d6158aff")
     version("0.9.3", sha256="6d7448f00b489cc8a7552bbac57b894f1339280c0a103465fdfe991d3dc59600")
     version("0.8.1", sha256="defc8913f06e2bf69ca33b4167eb61fa5277810a5daedd1b84846186061a78e3")
 
     variant("extras", default=True, description="Install the 'all' set of extras", when="@0.8.1")
 
     depends_on("python@3.9:", type=("build", "run"))
-    # depends_on("python@3.11:", type=("build", "run"), when="@0.9.3:")
+    depends_on("python@3.11:", type=("build", "run"), when="@0.9.4:")
 
     depends_on("py-setuptools@42:", type="build")
     depends_on("py-setuptools-scm", type="build")
@@ -44,3 +45,9 @@ class PyHalotools(PythonPackage):
     @when("@0.9.3")
     def patch(self):
         filter_file(r"requires-python\s*=.*", 'requires-python = ">=3.10"', "pyproject.toml")
+
+    @when("@0.9.4")
+    def patch(self):
+        # PEP 639 license metadata breaks setuptools <77; an old setuptools
+        # from a transitive run dep can reach the build first on PYTHONPATH
+        filter_file(r"^license.*", "", "pyproject.toml")
