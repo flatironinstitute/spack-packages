@@ -15,7 +15,18 @@ class PyAsdfAstropy(PythonPackage):
 
     license("BSD-3-Clause", checked_by="lgarrison")
 
+    version("0.11.0", sha256="6944700e3394a324a23772bdf97abb9803cd66a86b095101a548e9dfc650e2c0")
     version("0.7.1", sha256="5aa5a448ee0945bd834a9ba8fb86cf43b39e85d24260e1339b734173ab6024c7")
+
+    with when("@0.11:"):
+        depends_on("python@3.11:", type=("build", "run"))
+        depends_on("py-setuptools@77:", type="build")
+        depends_on("py-asdf@3.3.0:", type=("build", "run"))
+        depends_on("py-asdf-coordinates-schemas@0.4:", type=("build", "run"))
+        depends_on("py-asdf-transform-schemas@0.6:", type=("build", "run"))
+        depends_on("py-numpy@1.26.4:", type=("build", "run"))
+
+    conflicts("py-astropy@:5", when="@0.11:")
 
     depends_on("python@3.10:", type=("build", "run"))
 
