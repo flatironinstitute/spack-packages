@@ -17,6 +17,7 @@ class PyTyper(PythonPackage):
 
     variant("standard", default=True, description="Optional dependencies installed by default")
 
+    version("0.27.2", sha256="269b7eb9d3c202ca84b4bc9618cb04ebb43d3d4d1e567e4c768607232c05f945")
     version("0.20.1", sha256="68585eb1b01203689c4199bc440d6be616f0851e9f0eb41e4a778845c5a0fd5b")
     version("0.15.1", sha256="a0588c0a7fa68a1978a069818657778f86abe6ff5ea6abf472f940a08bfe4f0a")
     version("0.12.5", sha256="f592f089bedcc8ec1b974125d64851029c3b1af145f04aca64d69410f0c9b722")
@@ -28,13 +29,20 @@ class PyTyper(PythonPackage):
         depends_on("python@3.7:", type=("build", "run"))
         depends_on("py-pdm-backend", type="build")
         depends_on("py-click@8:8.1.8", when="@:0.23.2", type=("build", "run"))
-        depends_on("py-click@8.2.1:", when="@0.23.2:", type=("build", "run"))
+        depends_on("py-click@8.2.1:", when="@0.23.2:0.26", type=("build", "run"))
         depends_on("py-shellingham@1.3:", type=("build", "run"), when="+standard")
         depends_on("py-rich@10.11:", type=("build", "run"), when="+standard")
+
+    # 0.27 dropped click and typing-extensions; rich and shellingham became required
+    with when("@0.27:"):
+        depends_on("python@3.10:", type=("build", "run"))
+        depends_on("py-shellingham@1.3:", type=("build", "run"))
+        depends_on("py-rich@13.8:", type=("build", "run"))
+        depends_on("py-annotated-doc@0.0.2:", type=("build", "run"))
 
     with when("@:0.9.0"):
         depends_on("python@3.6:", type=("build", "run"))
         depends_on("py-flit-core@2.0:2", type="build")
         depends_on("py-click@7.1.1:8", type=("build", "run"))
 
-    depends_on("py-typing-extensions@3.7.4.3:", type=("build", "run"), when="@0.9.0:")
+    depends_on("py-typing-extensions@3.7.4.3:", type=("build", "run"), when="@0.9.0:0.26")
