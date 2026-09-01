@@ -16,6 +16,7 @@ class PyClick(PythonPackage):
 
     license("BSD-3-Clause")
 
+    version("8.4.1", sha256="918b5633eddf6b41c32d4f454bf0de810065c74e3f7dbf8ee5452f8be88d3e96")
     version("8.3.1", sha256="12ff4785d337a1bb490bb7e9c2b1ee5da3112e94a8622f26a6c77f5d2fc6842a")
     version("8.2.1", sha256="27c491cc05d968d271d5a1db13e3b5a184636d9d930f148c50b038f0d0646202")
     version("8.1.8", sha256="ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a")
@@ -36,6 +37,7 @@ class PyClick(PythonPackage):
     depends_on("python@3.7:", when="@8.1:", type=("build", "run"))
     with when("@8.1.8:"):
         depends_on("py-flit-core@:3", type="build")
+        depends_on("py-flit-core@3.11:3", when="@8.4:", type="build")
     with when("@:8.1.7"):
         depends_on("py-setuptools", type="build")
 
