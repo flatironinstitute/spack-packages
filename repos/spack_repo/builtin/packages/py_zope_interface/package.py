@@ -18,6 +18,11 @@ class PyZopeInterface(PythonPackage):
 
     license("ZPL-2.1", checked_by="wdconinc")
 
+    version(
+        "8.6",
+        url="https://files.pythonhosted.org/packages/source/z/zope-interface/zope_interface-8.6.tar.gz",
+        sha256="b40ef9b4873afb5d0dec02b8d2dfde1cf18c72337b60c99cb735961e0bac05c0",
+    )
     version("7.2", sha256="8b49f1a3d1ee4cdaf5b32d2e738362c7f5e40ac8b46dd7d1a65e82a4872728fe")
     version("7.1.1", sha256="4284d664ef0ff7b709836d4de7b13d80873dc5faeffc073abdb280058bfac5e3")
     version("7.0.3", sha256="cd2690d4b08ec9eaf47a85914fe513062b20da78d10d6d789a792c0b20307fb1")
@@ -34,6 +39,11 @@ class PyZopeInterface(PythonPackage):
     version("5.4.0", sha256="5dba5f530fec3f0988d83b78cc591b58c0b6eb8431a85edd1569a0539a8a5a0e")
     version("5.1.0", sha256="40e4c42bd27ed3c11b2c983fecfb03356fae1209de10686d03c02c8696a1d90e")
 
+    depends_on("c", type="build")
+    depends_on("python@3.10:", when="@8:", type=("build", "run"))
+
+    # 8.x dropped the runtime setuptools dependency and the <74 build cap
+    depends_on("py-setuptools", when="@8:", type="build")
     with default_args(type=("build", "run")):
-        depends_on("py-setuptools@:73", when="@7.1:")
-        depends_on("py-setuptools")
+        depends_on("py-setuptools@:73", when="@7.1:7")
+        depends_on("py-setuptools", when="@:7")
