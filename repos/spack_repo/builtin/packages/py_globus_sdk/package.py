@@ -20,6 +20,7 @@ class PyGlobusSdk(PythonPackage):
 
     license("Apache-2.0", checked_by="wdconinc")
 
+    version("4.9.0", sha256="41cdc8611e6d48133fc75e20162068c8ad583a63f33245bd2e2d64edd6425a71")
     version("4.3.1", sha256="f892bf26bb0b48fb96d4a79bd820c103733abbc5068bb96db812e585ffdfe14a")
     version("4.3.0", sha256="bc815d7ee9b3e789b9c5f85cb6bafc9b01db777b638147af3c2f035226087b89")
     version("4.2.0", sha256="d72715f6feae6dd947e167df803d5c1424b69513bb01f5fb6d184936a74705b2")
