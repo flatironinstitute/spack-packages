@@ -15,6 +15,7 @@ class PyHealpy(PythonPackage):
 
     license("GPL-2.0-or-later", checked_by="lgarrison")
 
+    version("1.20.0", sha256="03b0e1551ae235c7290e9bfdf69fa9cdc194f8a2be51198c1924b15d826102ed")
     version("1.18.0", sha256="6a12fd8f804c8a6d193dc43d1dcdf636808830e1ccc0aa7c53d83e394bb15289")
     version("1.14.0", sha256="2720b5f96c314bdfdd20b6ffc0643ac8091faefcf8fd20a4083cedff85a66c5e")
     version("1.13.0", sha256="d0ae02791c2404002a09c643e9e50bc58e3d258f702c736dc1f39ce1e6526f73")
@@ -25,6 +26,12 @@ class PyHealpy(PythonPackage):
     depends_on("c", type="build")  # generated
     depends_on("cxx", type="build")
     depends_on("fortran", type="build")  # generated
+
+    with when("@1.20:"):
+        depends_on("py-setuptools@77:", type="build")
+        depends_on("py-numpy@2:", type=("build", "run"))
+        depends_on("cfitsio@4.5:", type=("build", "link", "run"))
+        depends_on("healpix-cxx@3.83:", type=("build", "link", "run"))
 
     with when("@1.18.0:"):
         depends_on("python@3.10:", type=("build", "run"))
