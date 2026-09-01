@@ -17,12 +17,14 @@ class PyAsdfTransformSchemas(PythonPackage):
 
     license("BSD-3-Clause")
 
+    version("0.6.0", sha256="0f50f8e096fffd2d14b9c82995901266ef25b23d0dffc30ad41bba46851a9732")
     version("0.5.0", sha256="82cf4c782575734a895327f25ff583ce9499d7e2b836fe8880b2d7961c6b462b")
     version("0.3.0", sha256="0cf2ff7b22ccb408fe58ddd9b2441a59ba73fe323e416d59b9e0a4728a7d2dd6")
 
     depends_on("python@3.9:", when="@0.5.0:", type=("build", "run"))
     depends_on("python@3.8:", type=("build", "run"))
 
+    depends_on("py-setuptools@77:", when="@0.6.0:", type="build")
     depends_on("py-setuptools@42:", type="build")
     depends_on("py-setuptools-scm@3.4: +toml", type="build")
 

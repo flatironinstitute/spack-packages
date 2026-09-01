@@ -17,10 +17,13 @@ class PyAsdfCoordinatesSchemas(PythonPackage):
 
     license("BSD-3-Clause", checked_by="lgarrison")
 
+    version("0.5.1", sha256="d9cf72fc312f27cb8f2b9e6ce10c38ebf826e2e6b80ba1f591f75bb0eaf734e2")
     version("0.3.0", sha256="c98b6015dcec87a158fcde7798583f0615d08125fa6e1e9de16c4eb03fcd604e")
 
+    depends_on("python@3.10:", when="@0.5:", type=("build", "run"))
     depends_on("python@3.9:", type=("build", "run"))
 
+    depends_on("py-setuptools@77:", when="@0.5:", type="build")
     depends_on("py-setuptools@60:", type="build")
     depends_on("py-setuptools-scm@3.4: +toml", type="build")
 

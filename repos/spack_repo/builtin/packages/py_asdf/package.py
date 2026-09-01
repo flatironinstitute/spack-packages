@@ -19,6 +19,7 @@ class PyAsdf(PythonPackage):
 
     license("BSD-3-Clause")
 
+    version("5.3.1", sha256="c96c936cb65e75d8778d889f274f79ac90464a9ef2e7b794227dc204235fdcdf")
     version("4.1.0", sha256="0ff44992c85fd768bd9a9512ab7f012afb52ddcee390e9caf67e30d404122da1")
     version("3.5.0", sha256="047ad7bdd8f40b04b8625abfd119a35d18b344301c60ea9ddf63964e7ce19669")
     version("2.15.0", sha256="686f1c91ebf987d41f915cfb6aa70940d7ad17f87ede0be70463147ad2314587")
@@ -27,6 +28,10 @@ class PyAsdf(PythonPackage):
     variant("lz4", default=True, description="Enable lz4 compression")
 
     depends_on("py-lz4@0.10:", when="+lz4", type=("build", "run"))
+
+    with when("@5:"):
+        depends_on("python@3.10:", type=("build", "run"))
+        depends_on("py-pyyaml@6:", type=("build", "run"))
 
     with when("@3.5.0:"):
         depends_on("python@3.9:", type=("build", "run"))
@@ -45,7 +50,8 @@ class PyAsdf(PythonPackage):
         depends_on("py-setuptools-scm@3.4: +toml", type="build")
 
         depends_on("py-asdf-standard@1.0.1:", type=("build", "run"))
-        depends_on("py-asdf-transform-schemas@0.3:", type=("build", "run"))
+        # asdf 5 dropped the asdf-transform-schemas dependency
+        depends_on("py-asdf-transform-schemas@0.3:", when="@:4", type=("build", "run"))
         depends_on("py-jmespath@0.6.2:", type=("build", "run"))
         depends_on("py-numpy@1.20:", type=("build", "run"))
         depends_on("py-packaging@19:", type=("build", "run"))
